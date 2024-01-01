@@ -1,8 +1,10 @@
 '''Backtesting için gerekli olan kodları içeren dosya.'''
 
 
-
 import backtrader as bt
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 
 class StatArbStrategy(bt.Strategy):
     params = (
@@ -28,18 +30,36 @@ class StatArbStrategy(bt.Strategy):
         elif z_score > self.params.z_score_sell:
             self.sell()
 
-# strategy parametresini çıkardık
+
 def run_backtest(df_lead, df_lag):
     cerebro = bt.Cerebro()
 
     # DataFrame'i direkt olarak ekleyin, PandasData'ya dönüştürmeye gerek yok
-    cerebro.adddata(bt.feeds.PandasData(dataname=df_lead, name='lead'))
-    cerebro.adddata(bt.feeds.PandasData(dataname=df_lag, name='lag'))
+    data_lead = bt.feeds.PandasData(dataname=df_lead, name='lead')
+    data_lag = bt.feeds.PandasData(dataname=df_lag, name='lag')
 
-    cerebro.addstrategy(StatArbStrategy)  # StatArbStrategy sınıfını doğrudan ekledik
+    cerebro.adddata(data_lead)
+    cerebro.adddata(data_lag)
+
+    cerebro.addstrategy(StatArbStrategy)
 
     cerebro.run()
 
-    # cerebro nesnesini döndürün
-    return cerebro
+    # Analiz için kullanılan nesneye erişim
+    cerebro_analyzer = cerebro.runstrats[0]
 
+    # Analiz sonuçlarını döndür
+    return cerebro, cerebro_analyzer
+
+    '''cerebro.adddata(data_lead)
+    cerebro.adddata(data_lag)
+
+    cerebro.addstrategy(StatArbStrategy)
+
+    cerebro.run()
+
+    # Analiz için kullanılan nesneye erişim
+    cerebro_analyzer = cerebro.runstrats[0]
+
+    # Analiz sonuçlarını döndür
+    return cerebro, cerebro_analyzer'''

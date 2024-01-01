@@ -1,15 +1,16 @@
 '''Ana uygulama dosyası, tüm diğer modülleri içeren ve projeyi başlatan dosya.'''
 
 
-import quandl
 import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import quandl
+import backtrader as bt
+
 from data_collection.quandl_api import get_stock_data
 from strategy.statistical_arbitrage import run_stat_arb_strategy
 from backtesting.backtest import run_backtest
 from visualization.plot_utils import plot_prices_with_signals
-
-import matplotlib.pyplot as plt
-import numpy as np
 
 def main():
     # Veri Toplama
@@ -21,9 +22,6 @@ def main():
     #symbol_lead = 'MSFT'  # MSFT için Alpha Vantage simgesi
     #symbol_lag = 'IBM'  # IBM için Alpha Vantage simgesi
     #api_key = 'AC39YAMCYPHC6JMK'
-
-    #'mauY_7fP_tLjytR4ks - P' quandl api
-
 
     # Quandl API'siyle veri çekme
     df_lead = get_stock_data(api_key, symbol_lead)
@@ -48,15 +46,16 @@ def main():
     buy_signal, sell_signal = run_stat_arb_strategy(df_lead_filtered, df_lag_filtered)
 
     # Backtesting
-    cerebro = run_backtest(df_lead_filtered, df_lag_filtered)
+    cerebro, cumulative_return = run_backtest(df_lead_filtered, df_lag_filtered)
 
     # Grafikleri Çiz
-    plot_prices_with_signals(df_lead_filtered, df_lag_filtered, buy_signal, sell_signal, cerebro)
+    #plot_prices_with_signals(df_lead_filtered, df_lag_filtered, buy_signal, sell_signal, cerebro)
+    cerebro.plot(style='candlestick')  # Backtrader'ın kendi grafiğini kullanabilirsiniz
 
     # Sonuçları Yazdır
     print("Backtest Sonuçları:")
-    print(cerebro.getbroker().get_value())
-
+    print("Cerebro Nesnesi:", cerebro)
+    print("Kümülatif Getiri Analizi:", cumulative_return)
 
 if __name__ == "__main__":
     main()
