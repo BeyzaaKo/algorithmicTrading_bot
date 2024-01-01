@@ -1,4 +1,4 @@
-##Algorithmic Trading Bot Created With Statistical Arbitrage
+## Algorithmic Trading Bot Created With Statistical Arbitrage
 
 This is an algorithmic trading project created by taking two stock data, one leading and one lagging, and using statistical arbitrage. What I will do in this project is to determine the leading stock data and trade the lagging stock according to its movement. As a result, two graphs will be created.
 
