@@ -18,17 +18,12 @@ def main():
     symbol_lag = 'WIKI/IBM'    # IBM için Quandl simgesi
     api_key = 'mauY_7fP_tLjytR4ks-P'
 
-    #'AC39YAMCYPHC6JMK' alpha vantage api (günde 25 istek yapıyor)
-    #symbol_lead = 'MSFT'  # MSFT için Alpha Vantage simgesi
-    #symbol_lag = 'IBM'  # IBM için Alpha Vantage simgesi
-    #api_key = 'AC39YAMCYPHC6JMK'
-
     # Quandl API'siyle veri çekme
     df_lead = get_stock_data(api_key, symbol_lead)
     df_lag = get_stock_data(api_key, symbol_lag)
 
     # Her iki DataFrame'i ortak tarih aralığına göre filtrele
-    # dataFrame'lerin aynı tarih aralığına sahip olduğundan emin olmamız gerekiyor
+    # (dataFrame'lerin aynı tarih aralığına sahip olduğundan emin olmamız gerekiyor)
     common_start_date = max(df_lead.index.min(), df_lag.index.min())
     common_end_date = min(df_lead.index.max(), df_lag.index.max())
 
@@ -49,7 +44,7 @@ def main():
     cerebro, cumulative_return = run_backtest(df_lead_filtered, df_lag_filtered)
 
     # Grafikleri Çiz
-    #plot_prices_with_signals(df_lead_filtered, df_lag_filtered, buy_signal, sell_signal, cerebro)
+    plot_prices_with_signals(df_lead_filtered, df_lag_filtered, buy_signal, sell_signal, cerebro)
     cerebro.plot(style='candlestick')  # Backtrader'ın kendi grafiğini kullanabilirsiniz
 
     # Sonuçları Yazdır

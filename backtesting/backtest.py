@@ -1,10 +1,7 @@
-'''Backtesting için gerekli olan kodları içeren dosya.'''
-
-
-import backtrader as bt
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import backtrader as bt
 
 class StatArbStrategy(bt.Strategy):
     params = (
@@ -20,7 +17,6 @@ class StatArbStrategy(bt.Strategy):
         spread = self.lead_data - self.leg_data
 
         if isinstance(spread, float):
-            # spread bir float ise z-score'ı 0 olarak ayarla
             z_score = 0
         else:
             z_score = (spread - spread.mean()) / spread.std() if len(spread) > 1 else 0
@@ -34,7 +30,6 @@ class StatArbStrategy(bt.Strategy):
 def run_backtest(df_lead, df_lag):
     cerebro = bt.Cerebro()
 
-    # DataFrame'i direkt olarak ekleyin, PandasData'ya dönüştürmeye gerek yok
     data_lead = bt.feeds.PandasData(dataname=df_lead, name='lead')
     data_lag = bt.feeds.PandasData(dataname=df_lag, name='lag')
 
@@ -45,10 +40,8 @@ def run_backtest(df_lead, df_lag):
 
     cerebro.run()
 
-    # Analiz için kullanılan nesneye erişim
     cerebro_analyzer = cerebro.runstrats[0]
 
-    # Analiz sonuçlarını döndür
     return cerebro, cerebro_analyzer
 
     '''cerebro.adddata(data_lead)
