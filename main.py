@@ -18,9 +18,12 @@ def main():
     symbol_lag = 'WIKI/IBM'    # IBM için Quandl simgesi
     api_key = 'mauY_7fP_tLjytR4ks-P'
 
+    start_date = '2013-01-01'
+    end_date = '2018-03-27'
+
     # Quandl API'siyle veri çekme
-    df_lead = get_stock_data(api_key, symbol_lead)
-    df_lag = get_stock_data(api_key, symbol_lag)
+    df_lead = get_stock_data(api_key, symbol_lead, start_date=start_date, end_date=end_date)
+    df_lag = get_stock_data(api_key, symbol_lag, start_date=start_date, end_date=end_date)
 
     # Her iki DataFrame'i ortak tarih aralığına göre filtrele
     # (dataFrame'lerin aynı tarih aralığına sahip olduğundan emin olmamız gerekiyor)
