@@ -18,7 +18,7 @@ def main():
     symbol_lag = 'WIKI/IBM'    # IBM için Quandl simgesi
     api_key = 'mauY_7fP_tLjytR4ks-P'
 
-    start_date = '2013-01-01'
+    start_date = '2017-12-27'
     end_date = '2018-03-27'
 
     # Quandl API'siyle veri çekme
@@ -48,7 +48,7 @@ def main():
 
     # Grafikleri Çiz
     plot_prices_with_signals(df_lead_filtered, df_lag_filtered, buy_signal, sell_signal, cerebro)
-    cerebro.plot(style='candlestick')  # Backtrader'ın kendi grafiğini kullanabilirsiniz
+    cerebro.plot(style='candlestick')
 
     # Sonuçları Yazdır
     print("Backtest Sonuçları:")
